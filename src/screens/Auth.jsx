@@ -1,9 +1,9 @@
 import { useState } from 'react';
-import { useAuth } from './AuthContext';
-import { useToast } from './Toast';
+import { useAuth } from '../context/AuthContext';
+import { useToast } from '../components/Toast';
 
 export default function Auth() {
-  const { signUp, signIn } = useAuth();
+  const { signUp, signIn, signInWithGoogle } = useAuth();
   const toast = useToast();
   const [mode, setMode] = useState('login'); // 'login' | 'signup'
   const [name, setName] = useState('');
@@ -74,6 +74,12 @@ export default function Auth() {
         <button type="submit" disabled={busy}
           className="w-full h-12 bg-secondary text-white rounded-xl font-extrabold text-base hover:bg-secondary-dk transition disabled:opacity-60 !mt-5">
           {busy ? 'רגע…' : mode === 'signup' ? 'צור את החשבון שלי' : 'התחבר'}
+        </button>
+
+        <button type="button" onClick={() => signInWithGoogle()}
+          className="w-full h-12 bg-surface border border-border text-text rounded-xl font-bold text-base hover:bg-surface-2 transition flex items-center justify-center gap-2">
+          <span className="material-symbols-outlined" aria-hidden="true">login</span>
+          המשך עם Google
         </button>
       </form>
 
