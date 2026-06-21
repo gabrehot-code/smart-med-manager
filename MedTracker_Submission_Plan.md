@@ -1,6 +1,5 @@
 # מנהל תרופות חכם — תוכנית הגשה מלאה (React + Supabase + Vercel)
-### פרויקט גמר · קורס פיתוח מוצר מבוסס AI · יעד הגשה: 26/06/2026
-
+##
 מסמך זה לוקח את MedTracker מהמצב הנוכחי (קובץ HTML יחיד, localStorage) למוצר שעומד
 במלוא המחוון: React פרוס ב‑Vercel, Backend על Supabase עם מודל נתונים, אינטגרציות
 שעובדות, ו‑README/ERD מלאים. הקבצים המצורפים (`schema.sql`, `ERD.md`,
@@ -38,13 +37,8 @@ React (Vite) ──HTTPS──▶ Supabase
   └── פרוס על Vercel (CI מ‑GitHub, env vars)
 ```
 - מפתח ה‑AI חי **רק** כסוד ב‑Supabase (`ANTHROPIC_API_KEY`), לעולם לא בלקוח.
-- הלקוח מחזיק רק `VITE_SUPABASE_URL` + `VITE_SUPABASE_ANON_KEY` (ציבוריים מטבעם, מוגנים ע״י RLS).
+- הלקוח מחזיק רק `VITE_SUPABASE_URL` + `VITE_SUPABASE_ANON_KEY` (ציבוריים מטבעם, מוגנים ע״י RLS)
 
----
-
-## 3. Backend — Supabase (קריטריון §4, 20 נק׳)
-1. צור פרויקט ב‑[supabase.com](https://supabase.com) (Region: Frankfurt — קרוב לישראל).
-2. **Database → SQL Editor** → הדבק והרץ את [`schema.sql`](./schema.sql).
    זה יוצר 12 טבלאות מנורמלות, enums, אינדקסים, טריגר ליצירת `profile` אוטומטית,
    ומדיניות **RLS** מלאה (גישה לפי בעלות על מטופל / חברות ב‑care_team).
 3. **Database → Schema Visualizer** → צילום מסך → שמור כ‑`docs/erd.png` והטמע ב‑README.
@@ -55,9 +49,8 @@ React (Vite) ──HTTPS──▶ Supabase
 > כל הטבלאות, הטיפוסים, המפתחות והקשרים שב‑`schema.sql` תואמים אחד‑לאחד ל‑`ERD.md`
 > ולמסכי האפליקציה — בדיוק מה שהמחוון דורש ("ERD תואם למימוש").
 
----
 
-## 4. Frontend — מעבר ל‑React (קריטריון §3, 20 נק׳)
+
 מבנה רכיבים מוצע (מיפוי ישיר מהמסכים הקיימים):
 ```
 src/
@@ -71,14 +64,8 @@ src/
             Vitals, Journal, Emergency
   i18n/  (he/en/ru/ar) — אותו מילון + תבניות שכבר נבנו
 ```
-שלבי ביצוע מומלצים (הדרגתי, כל שלב נבדק):
-1. `npm create vite@latest medtracker -- --template react` → התקן Tailwind ו‑`@supabase/supabase-js`.
-2. העבר את ה‑CSS/tokens וה‑RTL מ‑`MedTracker.html` (ללא שינוי עיצוב — שומר על 15 הנק׳ של §2).
-3. בנה `lib/api.js` עם אותו חוזה פונקציות, אך מבוסס Supabase (דוגמה ב‑§4a).
-4. פצל כל מסך ל‑component; שמור את לוגיקת התצוגה הקיימת.
-5. טפל במצבי קצה: טעינה (skeleton/ספינר), שגיאה (toast), ריק (empty states — כבר קיימים).
+שלבי ביצוע מומלצים (הדרגתי, כל שלב נבדק):1. `npm create vite@latest medtracker -- --template react` → התקן Tailwind ו‑`@supabase/supabase-js`.
 
-### 4a. דוגמת תפר api → Supabase
 ```js
 // lib/api.js
 import { supabase } from './supabaseClient';
@@ -110,7 +97,7 @@ export const api = {
 
 ---
 
-## 5. אינטגרציות (קריטריון §5, 15 נק׳)
+##
 1. **Auth:** התחברות אמיתית עם Supabase Auth (אימייל + Google). מחליף את מצב ההדגמה.
 2. **AI מאובטח:** פרוס את ה‑Edge Function [`claude-proxy.edge-function.ts`](./claude-proxy.edge-function.ts):
    ```bash
