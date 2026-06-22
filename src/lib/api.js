@@ -195,3 +195,6 @@ export const api = {
     },
   },
 };
+
+// DEBUG
+window._apiDebug = true;
