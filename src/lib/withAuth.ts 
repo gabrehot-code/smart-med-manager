@@ -1,0 +1,35 @@
+
+import { neon } from '@neondatabase/serverless'
+import { verifyToken } from './auth'
+import type { NextRequest, NextResponse } from 'next/server'
+
+const sql = neon(process.env.DATABASE_URL!)
+
+export async function withAuth(
+  req: NextRequest,
+  handler: (tx: any, userId: string) => Promise<any>
+) {
+  // 1. שלוף טוקן מה-header
+  const token = req.headers.get('authorization')
+    ?.replace('Bearer ', '')
+  if (!token) return Response.json(
+    { error: 'Unauthorized' }, { status: 401 }
+  )
+
+  // 2. אמת את הטוקן ושלוף userId
+  const userId = verifyToken(token)
+
+  // 3. פתח transaction —
+  //    SET LOCAL חייב להיות בתוך transaction!
+  const data = await sql.transaction(async (tx) => {
+    // ← כאן SET LOCAL, לפני כל query אחר
+
+    await tx`SET LOCAL app.current_user_id = ${userId}`
+
+    // עכשיו RLS פעיל לכל ה-queries בתוך ה-transaction
+
+    return handler(tx, userId)
+  })
+
+  return Response.json(data)
+}
