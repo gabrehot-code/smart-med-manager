@@ -23,9 +23,11 @@ export default function Settings() {
   async function change(field, value) {
     try {
       await updateProfile({ [field]: value });
-      // toast.success(t('saved'));
+      // ;
     } catch { toast.error(t('save_error')); }
   }
+
+  const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
 
   async function requestNotif() {
     if (typeof Notification === 'undefined') { toast.error('התראות לא נתמכות בדפדפן זה'); return; }
@@ -130,9 +132,9 @@ export default function Settings() {
             <p className="text-xs text-text-light ml-2">מתחת ל-7 ימים</p>
             <Toggle value={notifLowStock} onChange={setNotifLowStock}/>
           </Row>
-          <Row icon="add_alert" label={t('enable_notif')} onClick={requestNotif}>
+          <Row icon="add_alert" label={t('enable_notif')} onClick={!isIOS ? requestNotif : undefined}>
             <span className={`text-xs font-bold px-2 py-0.5 rounded-full ${notifEnabled?'bg-green-100 text-green-700':'bg-border text-text-light'}`}>
-              {notifEnabled?t('notif_active'):t('notif_off')}
+              {isIOS ? 'לא נתמך ב-iOS' : notifEnabled ? t('notif_active') : t('notif_off')}
             </span>
           </Row>
         </Section>
@@ -184,7 +186,7 @@ export default function Settings() {
                   <span className="material-symbols-outlined text-text-light text-base">{showKey?'visibility_off':'visibility'}</span>
                 </button>
               </div>
-              <button onClick={()=>{localStorage.setItem('anthropic_api_key',apiKey);// toast.success(t('saved'));}}
+              <button onClick={()=>{localStorage.setItem('anthropic_api_key',apiKey);// ;}}
                 className="bg-primary text-white text-sm font-bold px-3 py-2 rounded-xl">{t('save')}</button>
             </div>
           </div>
