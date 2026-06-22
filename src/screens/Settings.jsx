@@ -23,7 +23,7 @@ export default function Settings() {
   async function change(field, value) {
     try {
       await updateProfile({ [field]: value });
-      toast.success(t('saved'));
+      // toast.success(t('saved'));
     } catch { toast.error(t('save_error')); }
   }
 
@@ -184,7 +184,7 @@ export default function Settings() {
                   <span className="material-symbols-outlined text-text-light text-base">{showKey?'visibility_off':'visibility'}</span>
                 </button>
               </div>
-              <button onClick={()=>{localStorage.setItem('anthropic_api_key',apiKey);toast.success(t('saved'));}}
+              <button onClick={()=>{localStorage.setItem('anthropic_api_key',apiKey);// toast.success(t('saved'));}}
                 className="bg-primary text-white text-sm font-bold px-3 py-2 rounded-xl">{t('save')}</button>
             </div>
           </div>
