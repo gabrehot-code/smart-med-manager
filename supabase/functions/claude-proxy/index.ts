@@ -1,19 +1,5 @@
 // =====================================================================
 // Supabase Edge Function: "claude-proxy"
-// Purpose: securely call the Anthropic Claude API from the server so the
-//          API key is NEVER exposed in the browser (rubric §5 requirement).
-//
-// Deploy:
-//   supabase functions deploy claude-proxy
-//   supabase secrets set ANTHROPIC_API_KEY=sk-ant-...
-//
-// Frontend calls it via the Supabase client:
-//   const { data } = await supabase.functions.invoke('claude-proxy', {
-//     body: { system, messages, max_tokens: 1024 }
-//   });
-//
-// Auth: the function requires a valid Supabase session JWT (verify_jwt is on
-//       by default), so only signed-in users can spend tokens.
 // =====================================================================
 
 import { serve } from "https://deno.land/std@0.224.0/http/server.ts";
