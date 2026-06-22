@@ -169,7 +169,15 @@ export default function Dashboard({ go }) {
         </div>
 
         {/* התראה פעילה */}
-        <button onClick={() => missedDoses.length>0?openAlert(missedDoses[0]):null}
+        <button onClick={() => {
+          if (missedDoses.length > 0) {
+            openAlert(missedDoses[0]);
+          } else if (upcoming) {
+            openAlert(upcoming);
+          } else if (planned.length > 0) {
+            openAlert(planned[0]);
+          }
+        }}
           className="w-full rounded-2xl p-4 flex items-center gap-3 text-right" style={{background:'#1E3A8A'}}>
           <div className="flex-1">
             <p className="font-extrabold text-white text-base">{t('active_alert')}</p>
