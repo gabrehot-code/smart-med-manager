@@ -24,7 +24,7 @@ export default function Dashboard({ go }) {
       const [m, d] = await Promise.all([api.meds.list(patient.id), api.doses.all(patient.id)]);
       setMeds(m); setDoses(d);
       startNotificationScheduler(m);
-    } catch { toast.error('שגיאה'); }
+    } catch(e) { toast.error(e?.message || 'שגיאה'); console.error(e); }
     finally { setLoading(false); }
   }, [patient, toast]);
 
@@ -51,7 +51,7 @@ export default function Dashboard({ go }) {
       await api.doses.record(p.medId, p.scheduledAt, 'taken');
       toast.success(p.medName + ' נרשם! 🎉');
       setAlertModal(null); load();
-    } catch { toast.error('שגיאה'); }
+    } catch(e) { toast.error(e?.message || 'שגיאה'); console.error(e); }
   }
 
   function openAlert(p) {
