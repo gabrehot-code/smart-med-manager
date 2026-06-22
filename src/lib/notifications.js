@@ -5,7 +5,7 @@ let timer = null;
 export function startNotificationScheduler(meds) {
   if (timer) clearInterval(timer);
   if (!meds || meds.length === 0) return;
-  if (Notification.permission !== 'granted') return;
+  if (typeof Notification === 'undefined' || Notification.permission !== 'granted') return;
 
   timer = setInterval(() => {
     const now = new Date();

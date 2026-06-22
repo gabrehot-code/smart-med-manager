@@ -17,7 +17,7 @@ export default function Settings() {
 
   useEffect(() => {
     setApiKey(localStorage.getItem('anthropic_api_key') || '');
-    setNotifEnabled(Notification.permission === 'granted');
+    setNotifEnabled(typeof Notification !== 'undefined' && Notification.permission === 'granted');
   }, []);
 
   async function change(field, value) {
@@ -28,6 +28,7 @@ export default function Settings() {
   }
 
   async function requestNotif() {
+    if (typeof Notification === 'undefined') { toast.error('התראות לא נתמכות בדפדפן זה'); return; }
     const p = await Notification.requestPermission();
     if (p === 'granted') { setNotifEnabled(true); toast.success('התראות הופעלו ✓'); }
     else toast.error('ההרשאה נדחתה');
